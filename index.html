@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Interest Calculator (Monthly/Yearly)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+    }
+    h2 {
+      color: #019f6c;
+    }
+    .box {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #019f6c;
+      width: 100%;
+      max-width: 350px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+    }
+    button {
+      background: #019f6c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    #explanation {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #ccc;
+      background: #2a2a2a;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Interest Calculator</h2>
+
+  <div class="box">
+    <input type="number" id="principal" placeholder="Principal Amount (₹)">
+    <input type="number" id="rate" placeholder="Interest Rate (% per month)">
+    <input type="number" id="time" placeholder="Time">
+    
+    <select id="timeUnit">
+      <option value="months">Months</option>
+      <option value="years">Years</option>
+    </select>
+    
+    <button onclick="calculate()">Calculate</button>
+
+    <div id="result"></div>
+    <div id="explanation"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const p = parseFloat(document.getElementById("principal").value);
+      const r = parseFloat(document.getElementById("rate").value);
+      let t = parseFloat(document.getElementById("time").value);
+      const unit = document.getElementById("timeUnit").value;
+
+      if (isNaN(p) || isNaN(r) || isNaN(t) || t <= 0) {
+        document.getElementById("result").innerHTML = "❌ Please enter valid values.";
+        document.getElementById("explanation").innerHTML = "";
+        return;
+      }
+
+      // Convert years to months
+      let originalTime = t;
+      let timeLabel = unit;
+      if (unit === "years") {
+        t = t * 12;
+        timeLabel = originalTime + " year(s) = " + t + " months";
+      } else {
+        timeLabel = t + " month(s)";
+      }
+
+      const interest = (p * r * t) / 100;
+      const total = p + interest;
+
+      document.getElementById("result").innerHTML =
+        `💰 Interest = ₹${interest.toFixed(2)}<br>📦 Total = ₹${total.toFixed(2)}`;
+
+      document.getElementById("explanation").innerHTML =
+        `👉 Example:<br>
+         If you invest ₹${p} at ${r}% per month<br>
+         for ${timeLabel}, you'll earn ₹${interest.toFixed(2)} interest.<br><br>
+         So, total = ₹${p} + ₹${interest.toFixed(2)} = ₹${total.toFixed(2)}.`;
+    }
+  </script>
+
+</body>
+</html>
