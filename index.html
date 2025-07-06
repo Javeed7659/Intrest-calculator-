@@ -1,73 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Interest Calculator (Monthly/Yearly/Days)</title>
+        content="width=device-width, initial-scale=1.0" />
+  <title>Interest Calculator</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: white;
+      font-family: 'Rubik', sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      padding: 50px 20px;
-    }
-    h2 {
-      color: #019f6c;
-    }
-    .box {
-      background: #1e1e1e;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #019f6c;
-      width: 100%;
-      max-width: 350px;
     }
-    input, select, button {
+
+    .container {
+      max-width: 400px;
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #dddddd;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
+      background: #2c3e50;
+      color: #fff;
+      font-size: 15px;
     }
+
+    input:focus, select:focus {
+      outline: none;
+      background: #34495e;
+    }
+
     button {
-      background: #019f6c;
-      color: white;
-      font-weight: bold;
+      width: 100%;
+      padding: 12px;
+      background: #00c896;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
+
+    button:hover {
+      background: #00b084;
+    }
+
     #result {
+      text-align: center;
       margin-top: 20px;
       font-size: 18px;
-      font-weight: bold;
+      color: #ffffff;
     }
+
     #explanation {
       margin-top: 15px;
-      font-size: 16px;
-      color: #ccc;
-      background: #2a2a2a;
-      padding: 10px;
-      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 12px;
+      color: #e2e2e2;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-  <h2>Interest Calculator</h2>
+  <div class="container">
+    <label for="principal">💰 Principal Amount (₹)</label>
+    <input type="number" id="principal" placeholder="e.g. 10000" />
 
-  <div class="box">
-    <input type="number" id="principal" placeholder="Principal Amount (₹)">
-    <input type="number" id="rate" placeholder="Interest Rate (% per month)">
-    <input type="number" id="time" placeholder="Time">
+    <label for="rate">📈 Interest Rate (% per month)</label>
+    <input type="number" id="rate" placeholder="e.g. 2" />
 
+    <label for="time">⏳ Time</label>
+    <input type="number" id="time" placeholder="e.g. 12" />
+
+    <label for="timeUnit">📅 Time Unit</label>
     <select id="timeUnit">
       <option value="months">Months</option>
       <option value="years">Years</option>
-      <option value="days">Days</option> <!-- ✅ New Option -->
+      <option value="days">Days</option>
     </select>
 
     <button onclick="calculate()">Calculate</button>
@@ -92,15 +133,14 @@
       let originalTime = t;
       let timeLabel = unit;
 
-      // ✅ Convert based on selected unit
       if (unit === "years") {
         t = t * 12;
-        timeLabel = originalTime + " year(s) = " + t + " months";
+        timeLabel = `${originalTime} year(s) = ${t} months`;
       } else if (unit === "days") {
         t = t / 30;
-        timeLabel = originalTime + " day(s) ≈ " + t.toFixed(2) + " months";
+        timeLabel = `${originalTime} day(s) ≈ ${t.toFixed(2)} months`;
       } else {
-        timeLabel = t + " month(s)";
+        timeLabel = `${t} month(s)`;
       }
 
       const interest = (p * r * t) / 100;
